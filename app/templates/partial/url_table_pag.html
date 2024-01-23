@@ -1,0 +1,25 @@
+<tbody id="table-body" hx-swap-oob="outerHTML">
+    {% for url in urls %}
+    {% include 'partial/url_table_row.html' %}
+    {% endfor %}
+</tbody>
+<div id="pagination">
+    {% if is_previous_available %}
+    <div
+        hx-get="/url/my-urls/pag/?size={{ size }}&offset={{ offset_p }}"
+        hx-target="#pagination"
+        hx-swap="outerHTML"
+    >
+        <button>Prev</button>
+    </div>
+    {% endif %}
+    {% if is_next_available %}
+    <div
+        hx-get="/url/my-urls/pag/?size={{ size }}&offset={{ offset_n }}"
+        hx-target="#pagination"
+        hx-swap="outerHTML"
+    >
+        <button>Next</button>
+    </div>
+    {% endif %}
+</div>

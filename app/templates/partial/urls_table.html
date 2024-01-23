@@ -1,0 +1,31 @@
+{% if zero_urls %}
+<p class="big-message">You don't shortened any URL's!</p>
+{% else %}
+<table class="url-table">
+    <colgroup>
+        <col style="width: 3rem" />
+        <col style="width: 10rem" />
+        <col style="width: 19rem" />
+        <col style="width: 5rem" />
+        <col style="width: 13rem" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Lp.</th>
+            <th>Short URL</th>
+            <th>Long URL</th>
+            <th>Visited</th>
+            <th>Added</th>
+        </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+</table>
+<div
+    id="pagination"
+    style="margin: 1rem auto; cursor: pointer"
+    hx-get="/url/my-urls/pag/?size=5&offset=0"
+    hx-trigger="load"
+    hx-target="this"
+    hx-swap="outerHTML"
+></div>
+{% endif %}

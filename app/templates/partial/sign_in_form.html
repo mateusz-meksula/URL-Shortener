@@ -1,0 +1,20 @@
+<form hx-post="/sign-in" hx-swap="none" class="auth-form">
+    <div class="form-field">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" required />
+        <div class="form-validation-error"></div>
+    </div>
+    <div class="form-field">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required />
+        <div class="form-validation-error"></div>
+    </div>
+    <button>Sign In</button>
+    <div
+        hx-get="/sign-in/error"
+        hx-trigger="unsuccessfulSignIn from:body"
+        hx-swap="outerHTML"
+        hx-target="this"
+        class="form-validation-error"
+    ></div>
+</form>

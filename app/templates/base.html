@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>URL Shortener</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', path='/css/general.css') }}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', path='/css/auth_forms.css') }}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', path='/css/url_table.css') }}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', path='/css/url_form.css') }}"
+        />
+    </head>
+    <body>
+        {% if user_created %}
+        <script>alert('Account created successfully')</script>
+        {% endif %}
+        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        <script>
+            htmx.config.useTemplateFragments = true;
+        </script>
+        <header>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    {% if logged %}
+                    <li>
+                        <a href="/url/my-urls">My URL's</a>
+                    </li>
+                    <li>
+                        <a href="/log-out">Log Out</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="/sign-in">Sign In</a>
+                    </li>
+                    <li>
+                        <a href="/sign-up">Sign Up</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+        <section id="banner">
+            <h1>URL Shortener</h1>
+            <p>
+                built with
+                <a href="https://fastapi.tiangolo.com/">FastAPI</a> and
+                <a href="https://htmx.org/">htmx</a>
+            </p>
+        </section>
+        {% block content %}
+        {% endblock content %}
+        <footer>
+            <p>Created by 
+                <a href="https://github.com/mateusz-meksula">Mati</a>
+            </p>
+            <p><a href="https://github.com">See on GitHub</a></p>
+        </footer>
+        <script src="{{ url_for('static', path='/js/signup_form.js') }}"></script>
+        <script src="{{ url_for('static', path='/js/copy_button.js') }}"></script>
+    </body>
+</html>

@@ -1,0 +1,54 @@
+#url-short {
+    margin: 0 auto;
+    width: 50rem;
+}
+
+#url-short p {
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+}
+
+#url-short a {
+    background-color: white;
+    color: black;
+    height: 2.5rem;
+    flex: 3;
+    font-size: 1.3rem;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+}
+
+#url-short a:hover {
+    color: var(--light-blue);
+}
+
+.url-input {
+    margin: 4rem auto;
+    width: 50rem;
+}
+
+.url-input p {
+    font-size: 1.2rem;
+}
+
+.url-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.url-row input {
+    height: 2.5rem;
+    flex: 3;
+    font-size: 1.3rem;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    font-family: inherit;
+}
+
+.url-row button {
+    margin-left: 20px;
+    flex: 0.8;
+}

@@ -1,0 +1,8 @@
+<div id="username-error" class="form-validation-error">
+    {% if username_to_short %}
+    Username to short
+    {% elif username_taken %}
+    Username already taken
+    {% endif %}
+</div>
+

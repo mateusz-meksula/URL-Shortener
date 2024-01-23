@@ -1,0 +1,16 @@
+<section id="url-short">
+    <p>Your short URL:</p>
+    <div class="url-row">
+        <a id="short" href="{{ short }}">{{ short }}</a>
+        <button onclick="copyToClipboard()">Copy</button>
+    </div>
+</section>
+<div id="url-error" hx-swap-oob="true">
+    <div
+        class="form-validation-error"
+        hx-swap="outerHTML"
+        hx-get="/url/invalid-url"
+        hx-trigger="invalidUrl from:body"
+        hx-target="this"
+    ></div>
+</div>

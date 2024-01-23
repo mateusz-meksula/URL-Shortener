@@ -1,0 +1,21 @@
+<section class="url-input">
+    <form>
+        <p>Enter your URL here</p>
+        <div class="url-row">
+            <input type="url" name="url" id="url" required />
+            <button hx-post="/url/" hx-target="#url-short" hx-swap="outerHTML">
+                Shorten it!
+            </button>
+        </div>
+        <div id="url-error">
+            <div
+                class="form-validation-error"
+                hx-swap="outerHTML"
+                hx-get="/url/invalid-url"
+                hx-trigger="invalidUrl from:body"
+                hx-target="this"
+            ></div>
+        </div>
+    </form>
+</section>
+<section id="url-short"></section>
