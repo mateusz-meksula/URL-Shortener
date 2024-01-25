@@ -1,11 +1,8 @@
 from random import choice
 from string import ascii_letters
 
-from fastapi import Request
-
 from app.config import Config
 from app.database import Cursor
-
 
 from . import database as db
 from .models import UrlModel
