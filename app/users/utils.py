@@ -1,3 +1,4 @@
+import string
 from jose import jwt
 from passlib.context import CryptContext
 
@@ -44,7 +45,7 @@ def is_password_secure(password: str) -> bool:
     if not has_different_chars:
         return False
 
-    has_special_chars = bool(set("!@#$%^&*") & set(password))
+    has_special_chars = bool(set(string.punctuation) & set(password))
     if not has_special_chars:
         return False
 
