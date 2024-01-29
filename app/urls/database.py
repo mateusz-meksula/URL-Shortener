@@ -4,10 +4,6 @@ from typing import TypedDict
 from app.database import Cursor
 
 
-class LongUrl(TypedDict):
-    long_url: str
-
-
 class Count(TypedDict):
     count: int
 
@@ -21,62 +17,49 @@ class Url(TypedDict):
     created: datetime
 
 
-async def add_url(
-    cursor: Cursor, short: str, long_url: str, user_id: int | None
-) -> None:
-    operation = """INSERT INTO url (user_id, short, long_url)
-    VALUES (%(user_id)s, %(short)s, %(long_url)s)"""
-    await cursor.execute(
-        operation,
-        {
-            "user_id": user_id,
-            "short": short,
-            "long_url": long_url,
-        },
-    )
+class UrlRepository:
+    def __init__(self, cursor: Cursor[Url]) -> None:
+        self.cursor = cursor
 
+    async def add(self, short: str, long_url: str, user_id: int | None) -> None:
+        operation = """INSERT INTO url (user_id, short, long_url)
+        VALUES (%(user_id)s, %(short)s, %(long_url)s)"""
+        await self.cursor.execute(
+            operation,
+            {
+                "user_id": user_id,
+                "short": short,
+                "long_url": long_url,
+            },
+        )
 
-async def get_long_url(cursor: Cursor[LongUrl], short: str) -> LongUrl | None:
-    operation = "SELECT long_url FROM url WHERE short = %(short)s"
-    await cursor.execute(operation, {"short": short})
-    return await cursor.fetchone()
+    async def get(self, short: str) -> Url | None:
+        operation = "SELECT * FROM url WHERE short = %(short)s"
+        await self.cursor.execute(operation, {"short": short})
+        return await self.cursor.fetchone()
 
+    async def update(self, short: str, count: int) -> None:
+        operation = "UPDATE url SET count = %(count)s WHERE short = %(short)s"
+        await self.cursor.execute(operation, {"count": count, "short": short})
 
-async def get_user_urls_count(cursor: Cursor[Count], user_id: int) -> Count | None:
-    operation = "SELECT count(url_id) count FROM url WHERE user_id = %(user_id)s"
-    await cursor.execute(operation, {"user_id": user_id})
-    return await cursor.fetchone()
+    async def get_all(self, user_id: int, size: int, offset: int) -> list[Url]:
+        operation = """
+        SELECT * FROM url
+        WHERE user_id = %(user_id)s
+        LIMIT %(size)s
+        OFFSET %(offset)s
+        """
+        await self.cursor.execute(
+            operation,
+            {
+                "user_id": user_id,
+                "size": size,
+                "offset": offset,
+            },
+        )
+        return await self.cursor.fetchall()
 
-
-async def get_user_urls(
-    cursor: Cursor[Url],
-    user_id: int,
-    size: int,
-    offset: int,
-) -> list[Url]:
-    operation = """
-    SELECT * FROM url
-    WHERE user_id = %(user_id)s
-    LIMIT %(size)s
-    OFFSET %(offset)s
-    """
-    await cursor.execute(
-        operation,
-        {
-            "user_id": user_id,
-            "size": size,
-            "offset": offset,
-        },
-    )
-    return await cursor.fetchall()
-
-
-async def get_url_count(cursor: Cursor[Count], short: str) -> Count | None:
-    operation = "SELECT count FROM url WHERE short = %(short)s"
-    await cursor.execute(operation, {"short": short})
-    return await cursor.fetchone()
-
-
-async def increment_url_count(cursor: Cursor, short: str, count: int) -> None:
-    operation = "UPDATE url SET count = %(count)s WHERE short = %(short)s"
-    await cursor.execute(operation, {"count": count, "short": short})
+    async def get_user_urls_count(self, user_id: int) -> Count | None:
+        operation = "SELECT count(url_id) count FROM url WHERE user_id = %(user_id)s"
+        await self.cursor.execute(operation, {"user_id": user_id})
+        return await self.cursor.fetchone()

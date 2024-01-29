@@ -3,11 +3,11 @@ from typing import Annotated, TypeAlias
 from fastapi import Cookie, Depends, Form
 
 from app.database import CursorD
+from app.users.database import UserRepository
 
-from .utils import get_username_from_token
-from .models import User
-from .service import get_user
 from .exceptions import UserNotLoggedIn
+from .models import User
+from .utils import get_username_from_token
 
 
 class UserSignUpForm:
@@ -32,6 +32,13 @@ class UserSignInForm:
     ):
         self.username = username
         self.password = password
+
+
+async def get_user(cursor: CursorD, username: str) -> User | None:
+    db_reply = await UserRepository(cursor).get(username)
+    if db_reply is None:
+        return None
+    return User(**db_reply)
 
 
 async def get_user_or_none(

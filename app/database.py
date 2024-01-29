@@ -1,11 +1,10 @@
-from typing import Annotated, TypeAlias, Generic, TypeVar
+from typing import Annotated, Generic, TypeAlias, TypeVar
 
 from fastapi import Depends
 from mysql.connector.aio import connect
 from mysql.connector.aio.cursor import MySQLCursorDict
 
 from app.config import Config
-
 
 config = Config()
 

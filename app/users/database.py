@@ -9,17 +9,16 @@ class User(TypedDict):
     hash: str
 
 
-async def create_user(
-    cursor: Cursor,
-    username: str,
-    hash: str,
-) -> None:
-    operation = """INSERT INTO user (name, hash)
-    VALUES (%(name)s, %(hash)s)"""
-    await cursor.execute(operation, {"name": username, "hash": hash})
+class UserRepository:
+    def __init__(self, cursor: Cursor[User]) -> None:
+        self.cursor = cursor
 
+    async def add(self, username: str, hash: str) -> None:
+        operation = """INSERT INTO user (name, hash)
+        VALUES (%(name)s, %(hash)s)"""
+        await self.cursor.execute(operation, {"name": username, "hash": hash})
 
-async def get_user(cursor: Cursor[User], username: str) -> User | None:
-    operation = "SELECT * FROM user WHERE name = %(username)s"
-    await cursor.execute(operation, {"username": username})
-    return await cursor.fetchone()
+    async def get(self, username: str) -> User | None:
+        operation = "SELECT * FROM user WHERE name = %(username)s"
+        await self.cursor.execute(operation, {"username": username})
+        return await self.cursor.fetchone()

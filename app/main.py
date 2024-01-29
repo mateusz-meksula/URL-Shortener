@@ -14,7 +14,6 @@ from app.users.exceptions import (
 )
 from app.users.router import router as users_router
 
-
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="app/static_files"), name="static")
 app.include_router(users_router)
